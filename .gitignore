@@ -16,3 +16,10 @@ tests/semaphore.h
 tests/benchlib.o
 tests/SIZES.*
 tests/*.log
+
+win32/Debug/
+win32/Release/
+win32/x64/
+win32/.vs/
+*.sdf
+*.vcxproj.user
