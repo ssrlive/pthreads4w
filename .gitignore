@@ -27,3 +27,6 @@ win32/ipch/
 
 *.sdf
 *.vcxproj.user
+tests/*.log
+/.project
+
