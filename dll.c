@@ -37,12 +37,17 @@
 #endif
 
 #if defined(_MSC_VER)
+#ifndef _CRTDBG_MAP_ALLOC
 #define _CRTDBG_MAP_ALLOC
+#endif // _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
 
 #define MEM_CHECK_BEGIN() do { _CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF ); } while(0)
 #define MEM_CHECK_DUMP_LEAKS() do { _CrtDumpMemoryLeaks(); } while(0)
+#else
+#define MEM_CHECK_BEGIN() do { ; } while(0)
+#define MEM_CHECK_DUMP_LEAKS() do { ; } while(0)
 #endif
 
 #include "pthread.h"
@@ -68,9 +73,7 @@ BOOL WINAPI DllMain (HINSTANCE hinstDll, DWORD fdwReason, LPVOID lpvReserved)
     {
 
     case DLL_PROCESS_ATTACH:
-#if defined(_MSC_VER)
       MEM_CHECK_BEGIN();
-#endif
       result = pthread_win32_process_attach_np ();
       break;
 
@@ -91,9 +94,7 @@ BOOL WINAPI DllMain (HINSTANCE hinstDll, DWORD fdwReason, LPVOID lpvReserved)
     case DLL_PROCESS_DETACH:
       (void) pthread_win32_thread_detach_np ();
       result = pthread_win32_process_detach_np ();
-#if defined(_MSC_VER)
       MEM_CHECK_DUMP_LEAKS();
-#endif
       break;
     }
 
