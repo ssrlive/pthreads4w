@@ -8,6 +8,9 @@
 *.ilk
 *.exp
 *.suo
+.vscode/
+.dist/
+build/
 
 version.res
 tests/*.pass
